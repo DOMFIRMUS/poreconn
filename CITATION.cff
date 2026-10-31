@@ -1,0 +1,200 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the article and the archived code."
+title: "poreconn: pore connectivity and image-based transport from micro-CT volumes"
+version: 1.0.0
+license: MIT
+doi: "10.5281/zenodo.23840902"
+repository-code: "https://github.com/DOMFIRMUS/poreconn"
+authors:
+  - family-names: Cardoso
+    given-names: Jean Firmino
+    orcid: "https://orcid.org/0000-0001-6092-713X"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Silva
+    given-names: Daiane Francisca do Nascimento
+    orcid: "https://orcid.org/0000-0002-1057-7335"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Lima
+    given-names: Hugo Emanuel Bezerra
+    name-particle: de
+    orcid: "https://orcid.org/0009-0006-4025-1770"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Carvalho
+    given-names: Bruno Felipe
+    name-particle: de
+    orcid: "https://orcid.org/0000-0002-2951-9362"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Bulhões
+    given-names: Vitória Regina da Silva
+    orcid: "https://orcid.org/0009-0003-1475-4815"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Lancha
+    given-names: Rebeca Carolina de Albuquerque Oliveira
+    orcid: "https://orcid.org/0009-0001-5265-7181"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Araújo
+    given-names: Hugo Barcelar
+    name-particle: de
+    name-suffix: Filho
+    orcid: "https://orcid.org/0009-0002-6244-6166"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Silva
+    given-names: José Roberto
+    name-particle: da
+    orcid: "https://orcid.org/0009-0005-7142-5422"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: García-Fornaris
+    given-names: Ivan
+    orcid: "https://orcid.org/0000-0003-3172-1057"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Santana
+    given-names: Alexandre Carlos Araújo
+    name-particle: de
+    orcid: "https://orcid.org/0000-0002-6717-5396"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Ge Proenza
+    given-names: Yaicel
+    orcid: "https://orcid.org/0000-0003-3894-8326"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Gámez Rodríguez
+    given-names: Abel
+    orcid: "https://orcid.org/0000-0002-1584-6768"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Milani
+    given-names: Raquel
+    orcid: "https://orcid.org/0000-0001-8076-6118"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: González Pérez
+    given-names: Yelina
+    orcid: "https://orcid.org/0009-0009-1431-5314"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Santos
+    given-names: Severino Martins
+    name-particle: dos
+    name-suffix: Neto
+    orcid: "https://orcid.org/0000-0003-2940-2129"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Albuquerque
+    given-names: Allan Almeida
+    orcid: "https://orcid.org/0000-0002-1305-3182"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Vieira
+    given-names: Clériston Moura
+    name-suffix: Júnior
+    orcid: "https://orcid.org/0000-0002-5424-6378"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Dutra
+    given-names: Emmanuel Damilano
+    orcid: "https://orcid.org/0000-0002-3245-2795"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Corrêa
+    given-names: Marcelo Metri
+    orcid: "https://orcid.org/0000-0003-0929-4634"
+    affiliation: "Federal University of Agreste of Pernambuco"
+  - family-names: Corrêa
+    given-names: Marcus Metri
+    orcid: "https://orcid.org/0000-0002-9506-8969"
+    affiliation: "Federal Rural University of Pernambuco"
+  - family-names: Reichert
+    given-names: José Miguel
+    orcid: "https://orcid.org/0000-0001-9943-2898"
+    affiliation: "Federal University of Pernambuco; Federal University of Pelotas"
+  - family-names: Milian Pérez
+    given-names: Daniel
+    orcid: "https://orcid.org/0000-0002-3172-0508"
+    affiliation: "Federal University of Pernambuco"
+  - family-names: Antonino
+    given-names: Antonio Celso Dantas
+    orcid: "https://orcid.org/0000-0002-4120-9404"
+    affiliation: "Federal University of Pernambuco"
+keywords:
+  - micro-CT
+  - pore connectivity
+  - Euler characteristic
+  - percolation
+  - lattice Boltzmann
+  - pore network model
+preferred-citation:
+  type: article
+  title: "Pore connectivity and image-based permeability at routine micro-CT resolution: glass-bead packs, reef limestones, coquinas and trachytes"
+  journal: "Transport in Porous Media"
+  status: submitted
+  authors:
+    - family-names: Cardoso
+      given-names: Jean Firmino
+      orcid: "https://orcid.org/0000-0001-6092-713X"
+    - family-names: Silva
+      given-names: Daiane Francisca do Nascimento
+      orcid: "https://orcid.org/0000-0002-1057-7335"
+    - family-names: Lima
+      given-names: Hugo Emanuel Bezerra
+      name-particle: de
+      orcid: "https://orcid.org/0009-0006-4025-1770"
+    - family-names: Carvalho
+      given-names: Bruno Felipe
+      name-particle: de
+      orcid: "https://orcid.org/0000-0002-2951-9362"
+    - family-names: Bulhões
+      given-names: Vitória Regina da Silva
+      orcid: "https://orcid.org/0009-0003-1475-4815"
+    - family-names: Lancha
+      given-names: Rebeca Carolina de Albuquerque Oliveira
+      orcid: "https://orcid.org/0009-0001-5265-7181"
+    - family-names: Araújo
+      given-names: Hugo Barcelar
+      name-particle: de
+      name-suffix: Filho
+      orcid: "https://orcid.org/0009-0002-6244-6166"
+    - family-names: Silva
+      given-names: José Roberto
+      name-particle: da
+      orcid: "https://orcid.org/0009-0005-7142-5422"
+    - family-names: García-Fornaris
+      given-names: Ivan
+      orcid: "https://orcid.org/0000-0003-3172-1057"
+    - family-names: Santana
+      given-names: Alexandre Carlos Araújo
+      name-particle: de
+      orcid: "https://orcid.org/0000-0002-6717-5396"
+    - family-names: Ge Proenza
+      given-names: Yaicel
+      orcid: "https://orcid.org/0000-0003-3894-8326"
+    - family-names: Gámez Rodríguez
+      given-names: Abel
+      orcid: "https://orcid.org/0000-0002-1584-6768"
+    - family-names: Milani
+      given-names: Raquel
+      orcid: "https://orcid.org/0000-0001-8076-6118"
+    - family-names: González Pérez
+      given-names: Yelina
+      orcid: "https://orcid.org/0009-0009-1431-5314"
+    - family-names: Santos
+      given-names: Severino Martins
+      name-particle: dos
+      name-suffix: Neto
+      orcid: "https://orcid.org/0000-0003-2940-2129"
+    - family-names: Albuquerque
+      given-names: Allan Almeida
+      orcid: "https://orcid.org/0000-0002-1305-3182"
+    - family-names: Vieira
+      given-names: Clériston Moura
+      name-suffix: Júnior
+      orcid: "https://orcid.org/0000-0002-5424-6378"
+    - family-names: Dutra
+      given-names: Emmanuel Damilano
+      orcid: "https://orcid.org/0000-0002-3245-2795"
+    - family-names: Corrêa
+      given-names: Marcelo Metri
+      orcid: "https://orcid.org/0000-0003-0929-4634"
+    - family-names: Corrêa
+      given-names: Marcus Metri
+      orcid: "https://orcid.org/0000-0002-9506-8969"
+    - family-names: Reichert
+      given-names: José Miguel
+      orcid: "https://orcid.org/0000-0001-9943-2898"
+    - family-names: Milian Pérez
+      given-names: Daniel
+      orcid: "https://orcid.org/0000-0002-3172-0508"
+    - family-names: Antonino
+      given-names: Antonio Celso Dantas
+      orcid: "https://orcid.org/0000-0002-4120-9404"

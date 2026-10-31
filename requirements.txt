@@ -1,0 +1,15 @@
+# Tested with Python 3.12.10 on Windows 11 (exact versions in requirements-lock.txt)
+numpy>=1.26,<2.3
+scipy>=1.13
+scikit-image==0.24.0      # PoreSpy 2.4.3 requires scikit-image < 0.25
+porespy==2.4.3
+openpnm==3.5.2
+numba>=0.60
+pyamg>=5.0
+pandas>=2.0
+matplotlib>=3.8
+tifffile>=2024.1.1
+pyyaml>=6.0
+openpyxl>=3.1             # only for scripts/build_input_tables.py
+ipython                   # imported by porespy.visualization
+pytest>=8.0

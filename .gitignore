@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+outputs/
+outputs_quick/
+data/voi/
+*.lock
+~$*
+Thumbs.db
+desktop.ini
+.DS_Store
+.venv/

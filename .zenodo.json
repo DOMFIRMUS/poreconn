@@ -1,0 +1,146 @@
+{
+  "upload_type": "software",
+  "title": "poreconn: pore connectivity and image-based transport from micro-CT volumes",
+  "version": "1.0.0",
+  "license": "MIT",
+  "language": "eng",
+  "creators": [
+    {
+      "name": "Cardoso, Jean Firmino",
+      "orcid": "0000-0001-6092-713X",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Silva, Daiane Francisca do Nascimento",
+      "orcid": "0000-0002-1057-7335",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Lima, Hugo Emanuel Bezerra de",
+      "orcid": "0009-0006-4025-1770",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Carvalho, Bruno Felipe de",
+      "orcid": "0000-0002-2951-9362",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Bulhões, Vitória Regina da Silva",
+      "orcid": "0009-0003-1475-4815",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Lancha, Rebeca Carolina de Albuquerque Oliveira",
+      "orcid": "0009-0001-5265-7181",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Araújo Filho, Hugo Barcelar de",
+      "orcid": "0009-0002-6244-6166",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Silva, José Roberto da",
+      "orcid": "0009-0005-7142-5422",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "García-Fornaris, Ivan",
+      "orcid": "0000-0003-3172-1057",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Santana, Alexandre Carlos Araújo de",
+      "orcid": "0000-0002-6717-5396",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Ge Proenza, Yaicel",
+      "orcid": "0000-0003-3894-8326",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Gámez Rodríguez, Abel",
+      "orcid": "0000-0002-1584-6768",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Milani, Raquel",
+      "orcid": "0000-0001-8076-6118",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "González Pérez, Yelina",
+      "orcid": "0009-0009-1431-5314",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Santos Neto, Severino Martins dos",
+      "orcid": "0000-0003-2940-2129",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Albuquerque, Allan Almeida",
+      "orcid": "0000-0002-1305-3182",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Vieira Júnior, Clériston Moura",
+      "orcid": "0000-0002-5424-6378",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Dutra, Emmanuel Damilano",
+      "orcid": "0000-0002-3245-2795",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Corrêa, Marcelo Metri",
+      "orcid": "0000-0003-0929-4634",
+      "affiliation": "Federal University of Agreste of Pernambuco (UFAPE), Garanhuns, Brazil"
+    },
+    {
+      "name": "Corrêa, Marcus Metri",
+      "orcid": "0000-0002-9506-8969",
+      "affiliation": "Federal Rural University of Pernambuco (UFRPE), Recife, Brazil"
+    },
+    {
+      "name": "Reichert, José Miguel",
+      "orcid": "0000-0001-9943-2898",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil; Department of Soils, Federal University of Pelotas (UFPel), Capão do Leão, Brazil"
+    },
+    {
+      "name": "Milian Pérez, Daniel",
+      "orcid": "0000-0002-3172-0508",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    },
+    {
+      "name": "Antonino, Antonio Celso Dantas",
+      "orcid": "0000-0002-4120-9404",
+      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+    }
+  ],
+  "keywords": [
+    "micro-CT",
+    "pore connectivity",
+    "Euler characteristic",
+    "percolation",
+    "lattice Boltzmann",
+    "pore network model",
+    "formation factor",
+    "carbonate rocks",
+    "volcanic rocks",
+    "Python"
+  ],
+  "description": "Python package that regenerates, with one command (python -m poreconn.run --stages analysis), every number, table and figure of the article \"Pore connectivity and image-based permeability at routine micro-CT resolution: glass-bead packs, reef limestones, coquinas and trachytes\" (Transport in Porous Media, submitted) from 64 micro-CT volumes of interest of glass-bead packs, reef limestones, coquinas and trachytes. Partial-volume (ISO-50) segmentation with bounds, connectivity and percolation, edge-corrected Euler characteristic density, Crofton surface density and critical diameter, imaging diagnostics (edge-spread function, median-filter sensitivity, enclosed-air control), resolution coarsening, sub-volume statistics and leave-one-specimen-out percolation prediction with within-specimen statistics, formation factor (finite volumes), permeability by a two-relaxation-time D3Q19 lattice Boltzmann solver and by SNOW-2 pore networks with mirror completion of the pores cut by the window faces, Kozeny-Carman and Katz-Thompson estimates, and the wall effect of packed columns. Tested with pytest against analytical solutions. The volumes of interest and derived data are archived in the companion data record.",
+  "notes": "Funding: PRH-ANP/FAPESP (2025/17670-6; 2025/03556-7; 2024/10544-2; 2024/12259-3), ANP/FINEP (48610.201019/2019-38), FACEPE (IBPG-1473-3.09/25; APQ-1428-3.01/25), CAPES (Finance Code 001), CNPq (142127/2024-8).",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementedBy",
+      "identifier": "10.5281/zenodo.23840904",
+      "scheme": "doi",
+      "resource_type": "dataset"
+    }
+  ]
+}

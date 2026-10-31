@@ -1,0 +1,11 @@
+Data licence
+
+The grey-level volumes of interest, segmented volumes, tables and figures deposited with this code
+on Zenodo are licensed under the Creative Commons Attribution 4.0 International licence (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+The volumes were cut from X-ray micro-CT reconstructions acquired at the Laboratorio de Tomografia
+Computadorizada de Raios X (LTC-RX), Departamento de Energia Nuclear, Universidade Federal de
+Pernambuco (UFPE), Brazil. Please acknowledge the laboratory when using them.
+Earlier cropped stacks of the same samples were published with the master's dissertation of
+J. F. Cardoso: https://doi.org/10.5281/zenodo.18750641 (CC BY 4.0).

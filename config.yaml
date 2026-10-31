@@ -1,0 +1,79 @@
+# poreconn configuration
+# Paths are relative to this file unless absolute.
+# The raw reconstructions are only needed by the `extract` stage. Everything after it reads the
+# grey-level volumes of interest (VOIs) in `paths.voi_dir`, which are the files deposited on Zenodo.
+
+paths:
+  raw_root: "D:/02_Projetos_e_Eventos/Tomografia"      # override with env PORECONN_RAW
+  voi_dir: "data/voi"
+  lab_csv: "data/lab_porosity.csv"
+  legacy_csv: "data/legacy_dissertation.csv"
+  outputs: "outputs"
+
+voi:
+  edge: 300                 # VOI edge length in (output) voxels
+  max_per_sample: 3         # replicate VOIs stacked along z, non-overlapping
+  z_margin_frac: 0.10       # keep VOIs away from the first/last 10 % of the stack
+  gap: 20                   # slices between replicate VOIs
+
+segmentation:
+  median_size: 3            # 3-D median filter (as in the dissertation)
+  iso_fraction: 0.5         # threshold = air + f * (solid - air); 0.5 = ISO-50 partial-volume rule
+                            # references fixed per sample; see poreconn/segment.py
+  sensitivity: [0.4, 0.6]   # alternative fractions reported as bounds
+  connectivity: 6           # pore-phase connectivity (6 = face neighbours)
+
+# Air references carried through the sub-volume, coarsening and transport analyses: T50 uses the air
+# outside the plug, T50int the air inside the large pores of the rocks (the bead packs have a single
+# reference, the pore air, so they are analysed once).
+air_variants: [T50, T50int]
+
+coarsening:
+  factors: [1, 2, 3, 4]     # block-averaging of the filtered grey VOI before re-thresholding
+  all_replicates: true      # every VOI, not only the main one
+
+rev:
+  edges: [50, 75, 100, 150, 200, 300]
+
+transport:
+  fd_tol: 1.0e-6            # relative residual of the conjugate-gradient diffusion solve
+  fd_maxiter: 20000
+  lbm_edge: 150             # lbm stage domain: the whole VOI if its mirrored spanning pore space has
+                            # <= 3e6 nodes, else the central lbm_edge^3 cube (then also the whole VOI
+                            # binned by 2, as a domain-size check)
+  lbm_tau: 1.0               # tau+ for the bead packs (wide pores); Lambda = 3/16 fixes tau-
+  lbm_tau_rock: 0.55         # tau+ for the rocks: faster pressure equilibration, same steady state
+  lbm_maxiter: 100000
+  lbm_tol: 1.0e-6
+  lbm_max_nodes: 3.0e6       # mirrored spanning nodes above which the central lbm_edge^3 cube is used
+  threshold_variants: [T40, T50, T60, T50int]   # rocks, whole main VOI: F, k_PNM, k_KC at each threshold
+  pnm: true
+
+# group: granular (glass-bead packs), limestone (reef limestone, Tambaba Fm.), coquina (Tambaba Fm.),
+#        trachyte (Pernambuco Basin)
+# bin: in-plane and axial binning applied when the VOI is read (2 = 2x2x2 block mean)
+samples:
+  - {id: CF4,  group: granular,  label: "CF4 (3 mm beads)",  raw: "Coluna de Percolação/DS23_CF4_3mm_25g",  voxel_um: 25.0, bin: 2, grain_mm: 3.0, legacy: DS23_CF4_3mm}
+  - {id: CF5,  group: granular,  label: "CF5 (3 mm beads)",  raw: "Coluna de Percolação/DS23_CF5_3mm_25g",  voxel_um: 25.0, bin: 2, grain_mm: 3.0, legacy: DS23_CF5_3mm}
+  - {id: CF7,  group: granular,  label: "CF7 (4 mm beads)",  raw: "Coluna de Percolação/DS23_CF7_4mm_25g",  voxel_um: 25.0, bin: 2, grain_mm: 4.0, legacy: DS23_CF7_4mm}
+  - {id: CF10, group: granular,  label: "CF10 (3+4 mm mix)", raw: "Coluna de Percolação/DS23_CF10_M_25g",   voxel_um: 25.0, bin: 2, grain_mm: 3.43, solid_mode: lightest, legacy: DS23_CF10_M}
+  - {id: VN01, group: limestone, label: "VN01", raw: "abrão/AG24_VN01_01", voxel_um: 25.0, bin: 1, legacy: VN01_AMOSTRAX}
+  - {id: VN02, group: limestone, label: "VN02", raw: "abrão/VN02 Fatias",  voxel_um: 25.0, bin: 1, legacy: VN02_AMOSTRA01}
+  - {id: VN04, group: limestone, label: "VN04", raw: "abrão/AG24_VN04_01", voxel_um: 25.0, bin: 1, legacy: VN04_AMOSTRAX2}
+  - {id: GT01, group: coquina, label: "GT01", raw: "GT24 Civil UFPE/GT24_01 [2024-11-28 10.00.34]/GT24_01_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_01 [2024-11-28 10.00.34]/GT24_01_40.xtekct", legacy: GT24_01_40}
+  - {id: GT02, group: coquina, label: "GT02", raw: "GT24 Civil UFPE/GT24_02 [2024-11-28 13.31.03]/GT24_02_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_02 [2024-11-28 13.31.03]/GT24_02_40.xtekct", legacy: GT24_02_40}
+  - {id: GT03, group: coquina, label: "GT03", raw: "GT24 Civil UFPE/GT24_03 [2024-11-28 14.05.00]/GT24_03_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_03 [2024-11-28 14.05.00]/GT24_03_40.xtekct", legacy: GT24_03_40}
+  - {id: GT04, group: coquina, label: "GT04", raw: "GT24 Civil UFPE/GT24_04 [2024-11-29 12.09.26]/GT24_04_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_04 [2024-11-29 12.09.26]/GT24_04_40.xtekct", legacy: GT24_04_40}
+  - {id: GT05, group: coquina, label: "GT05", raw: "GT24 Civil UFPE/GT24_05 [2024-11-28 14.53.50]/GT24_05_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_05 [2024-11-28 14.53.50]/GT24_05_40.xtekct", legacy: GT24_05_40}
+  - {id: GT06, group: coquina, label: "GT06", raw: "GT24 Civil UFPE/GT24_06 [2024-11-28 15.24.26]/GT24_06_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_06 [2024-11-28 15.24.26]/GT24_06_40.xtekct", legacy: GT24_06_40}
+  - {id: GT07, group: coquina, label: "GT07", raw: "GT24 Civil UFPE/GT24_07 [2024-11-28 16.01.01]/GT24_07_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_07 [2024-11-28 16.01.01]/GT24_07_40.xtekct", legacy: GT24_07_40}
+  - {id: GT08, group: coquina, label: "GT08", raw: "GT24 Civil UFPE/GT24_08 [2024-11-29 13.25.41]/GT24_08_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_08 [2024-11-29 13.25.41]/GT24_08_40.xtekct", legacy: GT24_08_40}
+  - {id: GT09, group: coquina, label: "GT09", raw: "GT24 Civil UFPE/GT24_09 [2024-11-29 13.54.40]/GT24_09_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_09 [2024-11-29 13.54.40]/GT24_09_40.xtekct", legacy: GT24_09_40}
+  - {id: GT10, group: coquina, label: "GT10", raw: "GT24 Civil UFPE/GT24_10 [2024-11-29 14.27.57]/GT24_10_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_10 [2024-11-29 14.27.57]/GT24_10_40.xtekct", legacy: GT24_10_40}
+  - {id: GT11, group: coquina, label: "GT11", raw: "GT24 Civil UFPE/GT24_11 [2024-11-29 14.58.55]/GT24_11_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_11 [2024-11-29 14.58.55]/GT24_11_40.xtekct", legacy: GT24_11_40}
+  - {id: GT12, group: coquina, label: "GT12", raw: "GT24 Civil UFPE/GT24_12 [2024-11-29 15.32.10]/GT24_12_40", voxel_um: 40.0, bin: 1, xtekct: "GT24 Civil UFPE/GT24_12 [2024-11-29 15.32.10]/GT24_12_40.xtekct", legacy: GT24_12_40}
+  - {id: TQ01, group: trachyte, label: "TQ01", raw: "Traquitos - Rochas Vulcânicas/BC22/BC22_TQ-01 [2022-08-26 11.21.34]/BC22_TQ-01_40", voxel_um: 40.0, bin: 1, xtekct: "Traquitos - Rochas Vulcânicas/BC22/BC22_TQ-01 [2022-08-26 11.21.34]/BC22_TQ-01_01.xtekct", legacy: BC22_TQ-01_40}
+  - {id: TQ02, group: trachyte, label: "TQ02", raw: "Traquitos - Rochas Vulcânicas/BC22/BC22_TQ-02 [2022-08-26 10.02.24]/BC22_TQ-02_40", voxel_um: 40.0, bin: 1, xtekct: "Traquitos - Rochas Vulcânicas/BC22/BC22_TQ-02 [2022-08-26 10.02.24]/BC22_TQ-02_01.xtekct", legacy: BC22_TQ-02_40}
+  - {id: TQ05, group: trachyte, label: "TQ05", raw: "Traquitos - Rochas Vulcânicas/BC23/BC23_TQ-05 [2023-05-02 16.16.58]/BC23_TQ-05_40", voxel_um: 40.0, bin: 1, xtekct: "Traquitos - Rochas Vulcânicas/BC23/BC23_TQ-05 [2023-05-02 16.16.58]/BC23_TQ-05_01.xtekct", legacy: BC23_TQ-05_40}
+  - {id: TQ06, group: trachyte, label: "TQ06", raw: "Traquitos - Rochas Vulcânicas/BC23/BC23_TQ-06 [2023-03-30 10.27.27]/BC23_TQ-06_40", voxel_um: 40.0, bin: 1, xtekct: "Traquitos - Rochas Vulcânicas/BC23/BC23_TQ-06 [2023-03-30 10.27.27]/BC23_TQ-06_01.xtekct", legacy: BC23_TQ-06_40}
+  - {id: TQ07, group: trachyte, label: "TQ07", raw: "Traquitos - Rochas Vulcânicas/BC23/BC23_TQ-07 [2023-05-02 16.45.27]/BC23_TQ-07_40", voxel_um: 40.0, bin: 1, xtekct: "Traquitos - Rochas Vulcânicas/BC23/BC23_TQ-07 [2023-05-02 16.45.27]/BC23_TQ-07_01.xtekct", legacy: BC23_TQ-07_40}
