@@ -1,7 +1,7 @@
 {
   "upload_type": "software",
   "title": "poreconn: pore connectivity and image-based transport from micro-CT volumes",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "language": "eng",
   "creators": [
@@ -78,7 +78,7 @@
     {
       "name": "Santos Neto, Severino Martins dos",
       "orcid": "0000-0003-2940-2129",
-      "affiliation": "Department of Nuclear Energy, Federal University of Pernambuco (UFPE), Recife, Brazil"
+      "affiliation": "Centro Acadêmico do Sertão, Federal University of Pernambuco (UFPE), Sertânia, Brazil"
     },
     {
       "name": "Albuquerque, Allan Almeida",
@@ -103,7 +103,7 @@
     {
       "name": "Corrêa, Marcus Metri",
       "orcid": "0000-0002-9506-8969",
-      "affiliation": "Federal Rural University of Pernambuco (UFRPE), Recife, Brazil"
+      "affiliation": "Department of Rural Technology, Federal Rural University of Pernambuco (UFRPE), Recife, Brazil"
     },
     {
       "name": "Reichert, José Miguel",

@@ -1,7 +1,7 @@
 # poreconn — resolved pore connectivity, topology and transport from X-ray micro-CT
 
 Code of the article *Pore connectivity and image-based permeability at routine micro-CT resolution: glass-bead packs, reef limestones, coquinas and trachytes* (Cardoso et al., submitted to *Transport in Porous Media*).
-DOI of this code: https://doi.org/10.5281/zenodo.23840902 · DOI of the data: https://doi.org/10.5281/zenodo.23840904.
+DOI of this code (version 1.1.0): https://doi.org/10.5281/zenodo.23865721 (all versions: https://doi.org/10.5281/zenodo.23840901) · DOI of the data: https://doi.org/10.5281/zenodo.23840904.
 
 `poreconn` takes grey-level micro-CT volumes of interest (VOIs) of 24 specimens — four glass-bead packs,
 three reef limestones and twelve coquinas of the Tambaba Formation (Paraíba Basin) and five trachytes of
@@ -104,6 +104,12 @@ outputs/               generated (not versioned)
   as walls, are kept for comparison).
 - Units: lengths in mm in the tables (voxel size in `config.yaml`), permeability in m² and mD.
 - Every number in the article is read from `outputs/report/key_numbers.json`; none is typed by hand.
+
+## Versions
+
+- 1.1.0 (2026-11-01): figures redrawn at the 119 mm width of the journal with lettering of at least 8 pt; author
+  affiliations updated. No number or table changes. https://doi.org/10.5281/zenodo.23865721
+- 1.0.0 (2026-10-31): first release. https://doi.org/10.5281/zenodo.23840902
 
 ## Licence and citation
 

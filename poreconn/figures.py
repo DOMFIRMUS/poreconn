@@ -8,7 +8,8 @@ blue circles = glass-bead packs, aqua squares = reef limestones, orange triangle
 dark grey diamonds = trachytes. The three hues are the first slots of a colour-blind-validated
 categorical palette; the fourth group uses a neutral so that all pairs stay separable. Filled vs open
 markers carry one binary attribute, named in each legend (percolates or not; mirror or wall faces).
-Widths follow Springer's 84 mm (single column) and 174 mm (double column).
+Main figures are 119 mm wide, the figure width of Springer's small-format journals; supplementary figures,
+printed on A4 pages, are 84 or 174 mm wide. Lettering is at least 8 pt.
 """
 from __future__ import annotations
 
@@ -29,15 +30,18 @@ from .report import PNM_TAGS, flag, pore_chord  # noqa: E402
 from .segment import seg_paths  # noqa: E402
 
 MM = 1 / 25.4
+W = 119 * MM          # width of the main figures
 COL = {"granular": "#2a78d6", "limestone": "#1baf7a", "coquina": "#eb6834", "trachyte": "#52514e"}
 MRK = {"granular": "o", "limestone": "s", "coquina": "^", "trachyte": "D"}
 LAB = {"granular": "Glass-bead packs", "limestone": "Reef limestones", "coquina": "Coquinas", "trachyte": "Trachytes"}
+SHORT = {"granular": "glass beads", "limestone": "limestone", "coquina": "coquina", "trachyte": "trachyte"}
 ORDER = ["granular", "limestone", "coquina", "trachyte"]
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#dcdcd8"
 
 plt.rcParams.update({
-    "font.family": "DejaVu Sans", "font.size": 7.5, "axes.titlesize": 8, "axes.labelsize": 7.5,
-    "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 7, "axes.linewidth": 0.6,
+    "font.family": "DejaVu Sans", "font.size": 8, "axes.titlesize": 8, "axes.labelsize": 8,
+    "xtick.labelsize": 8, "ytick.labelsize": 8, "legend.fontsize": 8, "legend.title_fontsize": 8,
+    "axes.linewidth": 0.6,
     "axes.edgecolor": INK2, "axes.labelcolor": INK, "xtick.color": INK2, "ytick.color": INK2,
     "xtick.major.width": 0.6, "ytick.major.width": 0.6, "axes.grid": False, "lines.linewidth": 1.4,
     "savefig.dpi": 600, "pdf.fonttype": 42, "axes.spines.top": False, "axes.spines.right": False,
@@ -83,12 +87,12 @@ def _scalebar(ax, n_px, dx_mm, length_mm, color="white"):
     ax.plot([n_px * 0.05, n_px * 0.05 + L], [y, y], color=color, lw=2.2, solid_capstyle="butt",
             path_effects=[pe.Stroke(linewidth=3.4, foreground="black"), pe.Normal()] if color == "white" else None)
     ax.text(n_px * 0.05 + L / 2, y - n_px * 0.03, f"{length_mm:g} mm", color=color, ha="center", va="bottom",
-            fontsize=6.5, path_effects=_halo(color))
+            fontsize=8, path_effects=_halo(color))
 
 
 # ------------------------------------------------------------------ Fig. 1: images and segmentation
 def fig_overview(cfg, d, reps=("CF5", "VN02", "GT01", "TQ06")):
-    fig, axs = plt.subplots(2, 4, figsize=(174 * MM, 92 * MM))
+    fig, axs = plt.subplots(2, 4, figsize=(W, 84 * MM))
     for j, sid in enumerate(reps):
         s = cfg.sample(sid)
         grey = tifffile.imread(voi_paths(cfg, sid, 0)[0])
@@ -98,7 +102,7 @@ def fig_overview(cfg, d, reps=("CF5", "VN02", "GT01", "TQ06")):
         lo, hi = np.percentile(g, [0.5, 99.5])
         ax = axs[0, j]
         ax.imshow(g, cmap="gray", vmin=lo, vmax=hi, interpolation="nearest")
-        ax.set_title(f"{sid} - {LAB[s.group][:-1] if LAB[s.group].endswith('s') else LAB[s.group]}", color=INK)
+        ax.set_title(f"{sid}\n{SHORT[s.group]}", color=INK)
         _scalebar(ax, g.shape[0], s.voxel_mm, 2 if s.voxel_mm < 0.045 else 4)
         # segmentation: pore voxels of clusters spanning any axis vs the others
         span = spanning_mask(pore, 0) | spanning_mask(pore, 1) | spanning_mask(pore, 2)
@@ -112,15 +116,16 @@ def fig_overview(cfg, d, reps=("CF5", "VN02", "GT01", "TQ06")):
             a.set_xticks([]); a.set_yticks([])
             for sp in a.spines.values():
                 sp.set_visible(False)
-    h = [matplotlib.patches.Patch(color="#2a78d6", label="pore, cluster spanning the VOI"),
-         matplotlib.patches.Patch(color="#eb6834", label="pore, non-spanning cluster"),
+    h = [matplotlib.patches.Patch(color="#2a78d6", label="pore, spanning cluster"),
+         matplotlib.patches.Patch(color="#eb6834", label="other pore"),
          matplotlib.patches.Patch(color="#ededed", label="solid")]
-    fig.legend(handles=h, loc="lower center", ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.02))
+    fig.legend(handles=h, loc="lower center", ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.04),
+               handlelength=1.2, columnspacing=1.2)
     for i, lab in enumerate("abcdefgh"):
         c = "white" if i < 4 else INK
         axs.flat[i].text(0.02, 0.98, f"({lab})", transform=axs.flat[i].transAxes, va="top", ha="left",
                          color=c, fontsize=8, fontweight="bold", path_effects=_halo(c))
-    fig.subplots_adjust(wspace=0.04, hspace=0.12)
+    fig.subplots_adjust(left=0.025, right=0.975, top=0.86, bottom=0.08, wspace=0.05, hspace=0.06)
     _save(fig, d, "fig01_overview")
 
 
@@ -152,7 +157,7 @@ def fig_histograms(cfg, d, reps=("CF10", "VN02", "GT01", "TQ06")):
             ax.set_ylabel("Relative frequency")
     h = [Line2D([], [], color=col, lw=0.9, ls=ls, label=lab) for _, ls, col, lab in lines if lab]
     h.append(matplotlib.patches.Patch(color="#c3c2b7", alpha=0.45, label="$T_{40}$–$T_{60}$"))
-    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, 0.02), ncol=5, frameon=False, fontsize=6.5)
+    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, 0.02), ncol=5, frameon=False)
     fig.tight_layout()
     _save(fig, d, "fig02_histograms")
 
@@ -163,19 +168,19 @@ def fig_connectivity(cfg, d):
     t = topo[topo.variant == "T50"].copy()
     t["perc_any"] = flag(t, "perc_any")
     t["chi_l3"] = t.chi_V * pore_chord(t.phi, t.S_V) ** 3      # l_p = 4 phi / S_V of each VOI
-    fig, axs = plt.subplots(1, 2, figsize=(174 * MM, 72 * MM))
+    fig, axs = plt.subplots(1, 2, figsize=(W, 62 * MM))
     for g in ORDER:
         x = t[t.group == g]
         for perc, mfc, z in ((False, "white", 3), (True, COL[g], 4)):     # percolating VOIs drawn on top
             y = x[x.perc_any == perc]
-            axs[0].scatter(100 * y.phi, 100 * y.frac_connected, marker=MRK[g], s=26, facecolor=mfc,
+            axs[0].scatter(100 * y.phi, 100 * y.frac_connected, marker=MRK[g], s=20, facecolor=mfc,
                            edgecolor=COL[g], linewidth=1.0, zorder=z)
-            axs[1].scatter(100 * y.phi, y.chi_l3, marker=MRK[g], s=26, facecolor=mfc, edgecolor=COL[g],
+            axs[1].scatter(100 * y.phi, y.chi_l3, marker=MRK[g], s=20, facecolor=mfc, edgecolor=COL[g],
                            linewidth=1.0, zorder=z)
     axs[0].set_xlabel("Resolved porosity $\\phi$ (%)")
-    axs[0].set_ylabel("Pore volume in spanning clusters (%)")
+    axs[0].set_ylabel("Connected pore volume (%)")
     axs[1].set_xlabel("Resolved porosity $\\phi$ (%)")
-    axs[1].set_ylabel("$\\chi_V\\,\\ell_p^3$ (Euler number per $\\ell_p^3$)")
+    axs[1].set_ylabel("$\\chi_V\\,\\ell_p^3$")
     axs[1].set_yscale("symlog", linthresh=0.01)
     axs[1].axhline(0, color=INK2, lw=0.7)
     for ax in axs:
@@ -184,10 +189,10 @@ def fig_connectivity(cfg, d):
     _legend_groups(axs[0], loc="center left")
     h = [Line2D([], [], ls="", marker="o", ms=5, mfc=INK2, mec=INK2, label="percolates (any axis)"),
          Line2D([], [], ls="", marker="o", ms=5, mfc="white", mec=INK2, label="does not percolate")]
-    axs[1].legend(handles=h, loc="upper left", frameon=False)
+    axs[1].legend(handles=h, loc="lower left", frameon=False)
     for i, ax in enumerate(axs):
-        ax.text(-0.14, 1.02, f"({'ab'[i]})", transform=ax.transAxes, fontsize=8, fontweight="bold")
-    fig.tight_layout()
+        ax.text(-0.26, 1.02, f"({'ab'[i]})", transform=ax.transAxes, fontsize=8, fontweight="bold")
+    fig.tight_layout(w_pad=1.0)
     _save(fig, d, "fig03_connectivity")
 
 
@@ -204,7 +209,9 @@ def fig_percolation(cfg, d, edge=150, variant="T50"):
     rev = pd.read_csv(cfg.outdir("rev") / "rev.csv")
     if "variant" in rev:
         rev = rev[rev.variant == variant]
-    fig, axs = plt.subplots(1, 3, figsize=(174 * MM, 58 * MM))
+    fig = plt.figure(figsize=(W, 104 * MM))
+    gs = fig.add_gridspec(2, 2)
+    axs = [fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1]), fig.add_subplot(gs[1, 0])]
     # (a)
     ax = axs[0]
     edges = sorted(e for e in cal[(cal.variant == variant) & (cal.group == "coquina")].edge.unique() if e <= edge)
@@ -227,8 +234,8 @@ def fig_percolation(cfg, d, edge=150, variant="T50"):
     ax.set_xlim(0, 30)
     ax.set_ylim(-0.03, 1.03)
     ax.set_xlabel("Porosity of the cube (%)")
-    ax.set_ylabel("Share percolating (coquinas)")
-    ax.legend(frameon=False, loc="lower right", title="cube edge", title_fontsize=6.5, fontsize=6.5)
+    ax.set_ylabel("Share percolating")
+    ax.legend(frameon=False, loc="upper left", title="cube edge", handlelength=1.4, borderaxespad=0.1)
     _grid(ax)
     # (b)
     ax = axs[1]
@@ -242,7 +249,7 @@ def fig_percolation(cfg, d, edge=150, variant="T50"):
         x = r[r.group == g]
         pa_ = flag(x, "perc_any").to_numpy()
         for sel, mfc, z in ((~pa_, "white", 2), (pa_, COL[g], 3)):
-            ax.scatter(100 * x.phi[sel], x.chi_l3[sel], marker=MRK[g], s=9, facecolor=mfc, edgecolor=COL[g],
+            ax.scatter(100 * x.phi[sel], x.chi_l3[sel], marker=MRK[g], s=10, facecolor=mfc, edgecolor=COL[g],
                        linewidth=0.6, zorder=z)
     ax.set_xscale("log")
     ax.set_yscale("symlog", linthresh=0.01)
@@ -252,7 +259,7 @@ def fig_percolation(cfg, d, edge=150, variant="T50"):
     _grid(ax)
     h = [Line2D([], [], ls="", marker="o", ms=4, mfc=INK2, mec=INK2, label="percolates"),
          Line2D([], [], ls="", marker="o", ms=4, mfc="white", mec=INK2, label="does not")]
-    ax.legend(handles=h, loc="upper left", frameon=False)
+    ax.legend(handles=h, loc="lower left", frameon=False)
     # (c)
     ax = axs[2]
     chi = "chi_main"
@@ -278,9 +285,11 @@ def fig_percolation(cfg, d, edge=150, variant="T50"):
     h = [Line2D([], [], color=c, lw=1.2, label=lab) for _, lab, c in models]
     h += [Line2D([], [], color=INK2, ls="-", marker="^", ms=3.6, label="coquinas"),
           Line2D([], [], color=INK2, ls="--", marker="s", ms=3.6, mfc="white", label="all rocks")]
-    ax.legend(handles=h, frameon=False, loc="lower left", fontsize=6, ncol=2, columnspacing=0.8, handlelength=1.6)
+    lax = fig.add_subplot(gs[1, 1])
+    lax.axis("off")
+    lax.legend(handles=h, frameon=False, loc="center left", handlelength=2.2)
     for i, a in enumerate(axs):
-        a.text(-0.24, 1.04, f"({'abc'[i]})", transform=a.transAxes, fontsize=8, fontweight="bold")
+        a.text(-0.30, 1.06, f"({'abc'[i]})", transform=a.transAxes, fontsize=8, fontweight="bold")
     fig.tight_layout()
     _save(fig, d, "fig04_percolation")
 
@@ -340,21 +349,20 @@ def fig_transport(cfg, d):
         tt = tt[flag(tt, "fd_converged", default=True)]
     tt = tt[np.isfinite(tt.F.astype(float))]
     lbm_f = cfg.outdir("report") / "tables" / "S_method_comparison.csv"
-    fig, axs = plt.subplots(1, 3, figsize=(174 * MM, 62 * MM))
+    fig, axs = plt.subplots(1, 3, figsize=(W, 56 * MM))
     ax = axs[0]
     for g in ORDER:
         x = tt[tt.group == g]
-        ax.scatter(x.phi_span if "phi_span" in x else x.phi, x.F, marker=MRK[g], s=26, color=COL[g],
+        ax.scatter(x.phi_span if "phi_span" in x else x.phi, x.F, marker=MRK[g], s=20, color=COL[g],
                    edgecolor="white", linewidth=0.5, zorder=3)
     p = np.logspace(np.log10(0.01), np.log10(0.6), 50)
     for m, ls in ((1.5, "-"), (2.0, "--"), (3.0, ":")):
         ax.plot(p, p ** -m, color=INK2, lw=0.8, ls=ls)
-        ax.text(p[0] * 1.05, p[0] ** -m, f"m = {m:g}", fontsize=6, color=INK2, va="bottom")
+        ax.text(p[0] * 1.05, p[0] ** -m, f"{m:g}", fontsize=8, color=INK2, va="bottom")
     ax.set_xscale("log"); ax.set_yscale("log")
-    ax.set_xlabel("Spanning porosity $\\phi_\\mathrm{span}$")
-    ax.set_ylabel("Formation factor $F$")
+    ax.set_xlabel("$\\phi_\\mathrm{span}$")
+    ax.set_ylabel("$F$")
     _grid(ax)
-    _legend_groups(ax, groups=[g for g in ORDER if (tt.group == g).any()], loc="upper right")
     if lbm_f.exists():
         lc = pd.read_csv(lbm_f)
         lc = lc[flag(lc, "used")] if "used" in lc else lc[flag(lc, "ok") if "ok" in lc else flag(lc, "converged")]
@@ -365,7 +373,7 @@ def fig_transport(cfg, d):
         nan = np.full(len(lc), np.nan)
         w2ok = flag(lc, "whole2_ok").to_numpy() if "whole2_ok" in lc else np.zeros(len(lc), bool)
         for ax, (size, (tm, tw)) in zip(axs[1:], (("Inscribed sizes", ("pnm", "pnmw")),
-                                                   ("Volume-/area-equivalent sizes", ("pnmeq", "pnmeqw")))):
+                                                   ("Equivalent sizes", ("pnmeq", "pnmeqw")))):
             n_zero = 0
             for g in ORDER:
                 sel = (lc.group == g).to_numpy()
@@ -375,9 +383,9 @@ def fig_transport(cfg, d):
                 n_zero += int(np.sum(km == 0) + np.sum(kw == 0))
                 both = (km > 0) & (kw > 0)
                 ax.vlines(kl[both], np.minimum(km, kw)[both], np.maximum(km, kw)[both], color=INK2, lw=0.7, zorder=2)
-                ax.scatter(kl, np.where(km > 0, km, np.nan), marker=MRK[g], s=22, facecolor=COL[g],
+                ax.scatter(kl, np.where(km > 0, km, np.nan), marker=MRK[g], s=18, facecolor=COL[g],
                            edgecolor="white", linewidth=0.5, zorder=4)
-                ax.scatter(kl, np.where(kw > 0, kw, np.nan), marker=MRK[g], s=20, facecolor="white",
+                ax.scatter(kl, np.where(kw > 0, kw, np.nan), marker=MRK[g], s=16, facecolor="white",
                            edgecolor=COL[g], linewidth=0.9, zorder=3)
                 c2 = f"k_{tm}_whole2_mD"                # networks and LBM on the whole VOI binned by 2
                 if c2 in lc:
@@ -402,18 +410,21 @@ def fig_transport(cfg, d):
             ax.set_title(size, color=INK)
             if n_zero:
                 ax.text(0.98, 0.02, f"$k_{{PNM}}$ = 0: {n_zero} (not shown)", transform=ax.transAxes,
-                        ha="right", va="bottom", fontsize=6, color=INK2)
+                        ha="right", va="bottom", color=INK2)
         h = [Line2D([], [], ls="", marker="o", ms=5, mfc=INK2, mec="white", label="sub-volume, mirror faces"),
              Line2D([], [], ls="", marker="o", ms=5, mfc="white", mec=INK2, label="sub-volume, wall faces"),
              Line2D([], [], ls="", marker="o", ms=5.5, mfc="none", mec=INK, label="whole VOI, mirror faces")]
-        axs[1].legend(handles=h, loc="lower right", frameon=True, framealpha=1, facecolor="white", edgecolor="#cccccc", fontsize=6)
+        hg = [Line2D([], [], ls="", marker=MRK[g], ms=5, mfc=COL[g], mec="white", mew=0.6, label=LAB[g])
+              for g in ORDER if (tt.group == g).any() or (lc.group == g).any()]
+        fig.legend(handles=hg + h, loc="upper center", bbox_to_anchor=(0.5, 0.0), ncol=2, frameon=False,
+                   handletextpad=0.3, columnspacing=1.2)
     for ax in axs[1:]:
-        ax.set_xlabel("$k$ lattice Boltzmann (D)")
+        ax.set_xlabel("$k_\\mathrm{LBM}$ (D)")
         _grid(ax)
-    axs[1].set_ylabel("$k$ pore network, same domain (D)")
+    axs[1].set_ylabel("$k_\\mathrm{PNM}$ (D)")
     for i, a in enumerate(axs):
-        a.text(-0.16, 1.02, f"({'abc'[i]})", transform=a.transAxes, fontsize=8, fontweight="bold")
-    fig.tight_layout()
+        a.text(-0.34, 1.02, f"({'abc'[i]})", transform=a.transAxes, fontsize=8, fontweight="bold")
+    fig.tight_layout(w_pad=0.6)
     _save(fig, d, "fig06_transport")
 
 
@@ -462,7 +473,7 @@ def fig_wall(cfg, d):
          Line2D([], [], ls="", marker=MRK["granular"], ms=5.5, mfc=COL["granular"], mec="white",
                 label="central VOIs"),
          Line2D([], [], ls="", marker=MRK["granular"], ms=5, mfc="white", mec=COL["granular"], label="whole section")]
-    ax.legend(handles=h, frameon=False, fontsize=6.5, loc="upper left", ncol=2)
+    ax.legend(handles=h, frameon=False, loc="upper left", ncol=2)
     _grid(ax, "y")
     for i, a in enumerate(axs):
         a.text(-0.12, 1.02, f"({'ab'[i]})", transform=a.transAxes, fontsize=8, fontweight="bold")
@@ -485,7 +496,7 @@ def fig_legacy(cfg, d):
     xl = lime["phi dissertation (%)"].to_numpy()
     for i, (_, r) in enumerate(lime.iterrows()):
         crowded = i + 1 < len(xl) and xl[i + 1] - xl[i] < 0.06 * m    # next label would overlap: go left
-        ax.annotate(r.Sample, (r["phi dissertation (%)"], r["phi this study (%)"]), fontsize=6, color=INK2,
+        ax.annotate(r.Sample, (r["phi dissertation (%)"], r["phi this study (%)"]), fontsize=8, color=INK2,
                     xytext=(-3 if crowded else 3, 3), textcoords="offset points", ha="right" if crowded else "left")
     ax.plot([0, m], [0, m], color=INK2, lw=0.7)
     ax.set_xlim(0, m); ax.set_ylim(0, m)
@@ -516,7 +527,7 @@ def fig_all_slices(cfg, d):
         g = grey[z].astype(float)
         lo, hi = np.percentile(g, [0.5, 99.5])
         axs[r, c].imshow(g, cmap="gray", vmin=lo, vmax=hi, interpolation="nearest")
-        axs[r, c].set_title(sid, fontsize=7, color=INK)
+        axs[r, c].set_title(sid, fontsize=8, color=INK)
         span = spanning_mask(pore, 0) | spanning_mask(pore, 1) | spanning_mask(pore, 2)
         rgb = np.dstack([np.full(g.shape, 0.93)] * 3)
         rgb[pore[z]] = matplotlib.colors.to_rgb("#eb6834")
@@ -554,13 +565,13 @@ def fig_rev(cfg, d):
                 label=lab)
         if len(ns) > 1:
             for _, r in x.iterrows():
-                ax.annotate(f"{int(r.n_samples)}", (r.edge_mm_mean, 100 * r.cv_phi_median), fontsize=5.5,
+                ax.annotate(f"{int(r.n_samples)}", (r.edge_mm_mean, 100 * r.cv_phi_median), fontsize=8,
                             color=INK2, xytext=(3, 2), textcoords="offset points")
     ax.set_xscale("log"); ax.set_yscale("log")
     ax.set_xlabel("Sub-volume edge (mm)")
     ax.set_ylabel("Coefficient of variation of porosity (%)")
     _plain_log(ax, "x"); _plain_log(ax, "y")
-    ax.legend(frameon=False, ncol=2, fontsize=6.5, loc="upper center", bbox_to_anchor=(0.5, -0.2))
+    ax.legend(frameon=False, ncol=2, loc="upper center", bbox_to_anchor=(0.5, -0.2))
     _grid(ax)
     fig.tight_layout()
     _save(fig, d, "figS_rev")
@@ -616,7 +627,7 @@ def fig_window(cfg, d):
                 mec=c, label=f"PNM, {PNM_TAGS[t]}") for t, (c, mirror) in style.items()]
     h += [Line2D([], [], color=INK, lw=1.0, ls=ls, marker=mk, ms=4.5, mew=1.0, mfc=INK, label=f"LBM, {title.lower()}")
           for _, title, mk, ls in media]
-    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, 0.02), ncol=3, frameon=False, fontsize=6.5)
+    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, 0.02), ncol=2, frameon=False)
     for i, a in enumerate(axs):
         a.text(-0.16, 1.02, f"({'abc'[i]})", transform=a.transAxes, fontsize=8, fontweight="bold")
     fig.tight_layout()
